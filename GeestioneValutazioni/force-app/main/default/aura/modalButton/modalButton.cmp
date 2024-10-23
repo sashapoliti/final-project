@@ -1,0 +1,14 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForRecordHome" access="global">
+    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+
+    <!-- Lightning Flow -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <lightning:button label="Open Flow in Modal" onclick="{!c.openModal}"/>
+
+    <!-- Conditionally render the Flow inside a modal -->
+    <aura:if isTrue="{!v.isModalOpen}">
+        <lightning:flow aura:id="flowData"
+                        name="Nuova_Valutazione" />
+    </aura:if>
+</aura:component>

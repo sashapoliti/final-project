@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <customErrors>
+        <name>Errore_Chiusura</name>
+        <label>Errore Chiusura</label>
+        <locationX>548</locationX>
+        <locationY>392</locationY>
+        <customErrorMessages>
+            <errorMessage>La Valutazione deve essere visualizzata dal Dipendente prima di essere Chiusa.</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <name>Chiudere_o_no</name>
+        <label>Chiudere o no</label>
+        <locationX>833</locationX>
+        <locationY>390</locationY>
+        <defaultConnector>
+            <targetReference>Errore_Chiusura</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Non si può chiudere</defaultConnectorLabel>
+        <rules>
+            <name>Si_pu_chiudere</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Visualizzato__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Completata</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Aggiorna_a_Chiusa</targetReference>
+            </connector>
+            <label>Si può chiudere</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>PossChiusura {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PossChiusura</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Aggiorna_a_Chiusa</name>
+        <label>Aggiorna a Chiusa</label>
+        <locationX>1157</locationX>
+        <locationY>389</locationY>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <stringValue>012Qy000003e2uFIAQ</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>715</locationX>
+        <locationY>51</locationY>
+        <connector>
+            <targetReference>Chiudere_o_no</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Chiusa</stringValue>
+            </value>
+        </filters>
+        <object>Valutazione__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
