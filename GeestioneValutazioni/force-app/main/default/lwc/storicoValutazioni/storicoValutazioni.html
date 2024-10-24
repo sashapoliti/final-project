@@ -1,3 +1,27 @@
 <template>
-    
+    <!-- tabella -->
+    <table class="miaTabella">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Profile</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- for each con key sulla riga per ogni contact nella lista -->
+            <template for:each={dipendentiList} for:item="d">
+                <tr key={d.Id} onclick={clickDipendente}>
+                    <td>{d.Id}</td>
+                    <td>{d.Name}</td>
+                    <td>{d.Profile.Name}</td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+
+    <!-- componente visualizzazione del dipendente -->
+    <template if:true={showPaginaDipendente}>
+        <c-pagina-dipendente></c-pagina-dipendente>
+    </template>
 </template>

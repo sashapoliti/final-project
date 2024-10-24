@@ -20,4 +20,13 @@ export default class StoricoValutazioni extends LightningElement {
             console.log(error);
         }
     }
+
+
+
+    /* logica visualizzazione dipendente */
+    showPaginaDipendente = false;
+
+    clickDipendente(event) {
+        this.showPaginaDipendente = true;
+    }
 }
