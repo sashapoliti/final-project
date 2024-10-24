@@ -1,3 +1,8 @@
-import { LightningElement } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
-export default class PaginaDipendente extends LightningElement {}
+export default class PaginaDipendente extends LightningElement {
+
+    @api dipendente;
+
+    
+}

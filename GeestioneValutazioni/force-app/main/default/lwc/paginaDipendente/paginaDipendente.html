@@ -1,3 +1,14 @@
 <template>
-    <p>dipendente</p>
+    <div class="miaCard" if:true={dipendente}>
+        <lightning-card  title={dipendente.Name} icon-name="standard:contact">
+            <lightning-button label="New" slot="actions"></lightning-button>
+            <ul class="slds-m-around_medium">
+                <li>{dipendente.Name}</li>
+                <li>{dipendente.Profile.Name}</li>
+            </ul>
+        </lightning-card>
+    </div>
+    <div if:false={dipendente}>
+        <p>Nessun dipendente selezionato.</p>
+    </div>
 </template>

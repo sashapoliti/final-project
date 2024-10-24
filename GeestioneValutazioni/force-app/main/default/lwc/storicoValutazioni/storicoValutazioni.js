@@ -25,8 +25,14 @@ export default class StoricoValutazioni extends LightningElement {
 
     /* logica visualizzazione dipendente */
     showPaginaDipendente = false;
+    dipendente;
 
     clickDipendente(event) {
         this.showPaginaDipendente = true;
+
+        /* prendo id del dipendente al click dal data id */
+        this.dipendente = this.dipendentiList.find(d => d.Id === event.currentTarget.dataset.id);
+
+        console.log(this.dipendente);
     }
 }

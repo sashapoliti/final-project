@@ -21,6 +21,13 @@
 
 .miaTabella tbody tr {
     border-bottom: 1px solid #dddddd;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.miaTabella tbody tr:hover {
+    transform: scale(1.005);
+    background-color: #ffc5c5;
 }
 
 .miaTabella tbody tr:nth-of-type(even) {
