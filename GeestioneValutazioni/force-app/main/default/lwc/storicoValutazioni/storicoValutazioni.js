@@ -1,5 +1,6 @@
 import { LightningElement } from 'lwc';
 import getDipendenti from '@salesforce/apex/StoricoClass.getDipendenti';
+import getCurrentUser from '@salesforce/apex/StoricoClass.getCurrentUser';
 
 export default class StoricoValutazioni extends LightningElement {
 
@@ -7,7 +8,26 @@ export default class StoricoValutazioni extends LightningElement {
 
     /* metodo che si richiama al caricamento del componente */
     connectedCallback() {
-        this.get();
+        this.getCurrentUser();
+    }
+
+    /* controllo chi sia l'user corrente */
+    async getCurrentUser() {
+        try {
+            const user = await getCurrentUser();
+            if (user.Profile.Name === 'Dipendente') {
+                /* se l'user corrente è un dipendente
+                lo spedisco subito alla sua pagina utente,
+                e lo blocco lì */
+                this.dipendente = user;
+                this.showPaginaDipendente = true;
+                this.isUserDipendente = true;
+            } else {
+                this.get();
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     /* ricerca dei contatti */
@@ -26,6 +46,7 @@ export default class StoricoValutazioni extends LightningElement {
     /* logica visualizzazione dipendente */
     showPaginaDipendente = false;
     dipendente;
+    isUserDipendente= false;
 
     clickDipendente(event) {
         this.showPaginaDipendente = true;

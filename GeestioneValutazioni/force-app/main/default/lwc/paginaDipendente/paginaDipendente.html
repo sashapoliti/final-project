@@ -2,7 +2,7 @@
     <div class="miaCard" if:true={dipendente}>
         <lightning-card title={dipendente.Name} icon-name="standard:contact">
             <!-- bottoni action -->
-            <lightning-button label="Return" slot="actions" onclick={returnIndietro}></lightning-button>
+            <lightning-button if:false={userdipendente} label="Return" slot="actions" onclick={returnIndietro}></lightning-button>
             <!-- body dipendente -->
             <div class="slds-m-around_medium mioBody">
                 <!-- dettagli dipendente -->

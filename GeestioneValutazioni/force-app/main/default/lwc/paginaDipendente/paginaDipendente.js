@@ -4,7 +4,12 @@ import getValutazioni from '@salesforce/apex/StoricoClass.getValutazioni';
 export default class PaginaDipendente extends LightningElement {
 
     _dipendente;
+
+    @api
+    userdipendente;
+
     valutazioniOriginali = [];
+
 
     @api
     set dipendente(value) {
