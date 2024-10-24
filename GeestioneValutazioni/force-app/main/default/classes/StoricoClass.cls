@@ -18,4 +18,9 @@ public with sharing class StoricoClass {
         FROM Valutazione__c
         WHERE Dipendente_Valutato__c = :dipendenteId];
     }
+
+    @AuraEnabled
+    public static User getCurrentUser() {
+        return [SELECT Id, Name, Profile.Name FROM User WHERE Id = :UserInfo.getUserId()];
+    }
 }
