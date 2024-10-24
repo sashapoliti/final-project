@@ -39,6 +39,17 @@ export default class PaginaDipendente extends LightningElement {
         }
     }
 
+    returnIndietro() {
+        /* reset di tutto */
+        this.valutazioni = [];
+        this.valutazioniOriginali = [];
+        this.anni = [];
+
+        const eventoRitorno = new CustomEvent('ritorno');
+
+        this.dispatchEvent(eventoRitorno);
+    }
+
     getAnni(valutazioni) {
         this.anni = [];
         valutazioni.forEach(e => {

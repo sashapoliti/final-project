@@ -35,4 +35,10 @@ export default class StoricoValutazioni extends LightningElement {
 
         console.log(this.dipendente);
     }
+
+    /* metodo catturato dal figlio per ritornare indietro */
+    returnIndietro() {
+        this.showPaginaDipendente = false;
+        this.dipendente = {};
+    }
 }
