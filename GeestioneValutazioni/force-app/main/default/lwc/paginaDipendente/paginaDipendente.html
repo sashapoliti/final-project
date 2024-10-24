@@ -1,11 +1,45 @@
 <template>
     <div class="miaCard" if:true={dipendente}>
-        <lightning-card  title={dipendente.Name} icon-name="standard:contact">
+        <lightning-card title={dipendente.Name} icon-name="standard:contact">
+            <!-- bottoni action -->
             <lightning-button label="New" slot="actions"></lightning-button>
-            <ul class="slds-m-around_medium">
-                <li>{dipendente.Name}</li>
-                <li>{dipendente.Profile.Name}</li>
-            </ul>
+            <!-- body dipendente -->
+            <div class="slds-m-around_medium mioBody">
+                <!-- dettagli dipendente -->
+                <div class="left">
+                    <p>Id: {dipendente.Id}</p>
+                    <p>Name: {dipendente.Name}</p>
+                    <p>Profile: {dipendente.Profile.Name}</p>
+                </div>
+
+                <!-- tabella valutazioni -->
+                <div class="right">
+                    <select name="selectAnni" id="selectAnni" onchange={cambioAnno}>
+                        <option value=''>---</option>
+                        <template for:each={anni} for:item="a">
+                            <option key={a} value={a}>{a}</option>
+                        </template>
+                    </select>
+                    <lightning-accordion class="example-accordion" active-section-name="">
+                        <template for:each={valutazioni} for:item="v">
+                            <lightning-accordion-section key={v.Id} name="A" label={v.Data__c}>
+                                <p>Manager Name: {v.OwnerId}</p>
+                                <ul>
+                                    <li>Obiettivi raggiunti: {v.Punteggio_Obiettivi_Raggiunti__c}</li>
+                                    <li>Competenze tecniche: {v.Punteggio_Competenze_Tecniche__c}</li>
+                                    <li>Capacità comunicative: {v.Punteggio_Capacit_Comunicative__c}</li>
+                                    <li>Collaborazione: {v.Punteggio_Collaborazione__c}</li>
+                                    <li>Punteggio Complessivo: {v.Punteggio_Complessivo__c}</li>
+                                </ul>
+
+                                <ul>
+                                    <li>Commento: {v.Commento__c}</li>
+                                </ul>
+                            </lightning-accordion-section>
+                        </template>
+                    </lightning-accordion>
+                </div>
+            </div>
         </lightning-card>
     </div>
     <div if:false={dipendente}>
