@@ -1,0 +1,80 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false">
+    <apex:form >
+        <apex:pageBlock title="Performance Report">
+            <apex:pageBlockSection title="Select Department">
+                <apex:inputText id="departmentInput" label="Department" />
+                <apex:commandButton value="Fetch Data" onclick="fetchData(); return false;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="dataPanel" title="Performance Data">
+                <div id="performanceData"></div>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+
+    <script>
+        function fetchData() {
+            var department = document.querySelector('[id$="departmentInput"]').value;
+
+            var actionUrl = '/services/apexrest/departmentPerformanceReport/' + department;
+
+            fetch(actionUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayData(data);
+            })
+            .catch(error => {
+                const errorDiv = document.createElement('div');
+                errorDiv.textContent = 'Error fetching data: ' + error.message;
+                document.getElementById('performanceData').appendChild(errorDiv);
+            });
+        }
+
+        function displayData(data) {
+            const performanceDataDiv = document.getElementById('performanceData');
+            performanceDataDiv.innerHTML = '';  // Pulisce l'output precedente
+
+            const table = document.createElement('table');
+            table.border = '1';
+
+            const headerRow = document.createElement('tr');
+            const headers = ['Employee Name', 'Total Score', 'Date'];
+            headers.forEach(headerText => {
+                const header = document.createElement('th');
+                header.textContent = headerText;
+                headerRow.appendChild(header);
+            });
+            table.appendChild(headerRow);
+
+            data.forEach(item => {
+                const row = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = item.Dipendente_Valutato__r.Name;
+                row.appendChild(nameCell);
+
+                const scoreCell = document.createElement('td');
+                scoreCell.textContent = item.Punteggio_Complessivo__c;
+                row.appendChild(scoreCell);
+
+                const dateCell = document.createElement('td');
+                dateCell.textContent = new Date(item.Data__c).toLocaleDateString();
+                row.appendChild(dateCell);
+
+                table.appendChild(row);
+            });
+
+            performanceDataDiv.appendChild(table);
+        }
+    </script>
+</apex:page>
